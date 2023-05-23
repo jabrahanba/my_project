@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile-jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    depends_on:
+      - mongo
+
+  mongo:
+    build:
+      context: .
+      dockerfile: Dockerfile-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+
+volumes:
+  mongodb-data:
